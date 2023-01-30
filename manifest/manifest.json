@@ -1,0 +1,66 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.15/MicrosoftTeams.schema.json",
+  "manifestVersion": "1.15",
+  "version": "1.2.0",
+  "id": "b4f5290e-61fe-496b-b6bc-6837cdc5bfc1",
+  "packageName": "HD Bldg. Suppliers",
+  "developer": {
+    "name": "HD Bldg. Suppliers",
+    "websiteUrl": "https://674b-108-53-76-115.ngrok.io/",
+    "privacyUrl": "https://674b-108-53-76-115.ngrok.io/privacy.html",
+    "termsOfUseUrl": "https://674b-108-53-76-115.ngrok.io/termsofuse.html"
+  },
+  "icons": {
+      "color": "pfalcon.jpg",
+      "outline": "pfalcon.jpg"
+  },
+  "name": {
+    "short": "HD Bldg. Pymt Svcs",
+    "full": "RTP/RFP, ACH, Check Payable & Receivables System - Powered by U.S. Bank's Open Banking APIs."
+  },
+  "description": {
+    "short": "Sample Real-time Payments app using Open Banking APIs.",
+    "full": "Simple app to demonstrate deploying real-time payment using Microsoft Teams. It can be used as a Virtual Pos & Vendor Invoice Payment Systems"
+  },
+  "accentColor": "#1e0692",
+
+  "configurableTabs": [
+    {
+      "configurationUrl": "https://674b-108-53-76-115.ngrok.io/configure",
+      "scopes": [
+        "groupchat"
+      ],
+      "canUpdateConfiguration": true,
+      "context": [
+        "meetingSidePanel",
+        "meetingStage"
+      ]
+    }
+  ],
+  "staticTabs": [
+    {
+      "entityId": "rtpTxn",
+      "name": "Real-time Payments",
+      "contentUrl": "https://674b-108-53-76-115.ngrok.io/",
+      "websiteUrl": "https://674b-108-53-76-115.ngrok.io/",
+      "scopes": [
+        "personal",
+        "team"
+      ]
+    }
+  ],
+  "showLoadingIndicator": false,
+  "permissions": [
+      "identity",
+      "messageTeamMembers"
+  ],
+  "validDomains": [
+      "674b-108-53-76-115.ngrok.io"
+  ],
+  "defaultInstallScope": "meetings",
+  "defaultGroupCapability":{
+    "meetings": "tab",
+    "team": "bot",
+    "groupchat": "bot"
+  }
+}

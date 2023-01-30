@@ -1,0 +1,66 @@
+{
+  "name": "HD Building Materials Supplier",
+  "version": "1.0.0",
+  "description": "",
+  "main": "server/server.js",
+  "type": "module",
+  "scripts": {
+    "debug": "nodemon --inspect server/server.js",
+    "loadData": "node falconDB/loadData.js",
+    "server": "nodemon server/server.js",
+    "client": "cd client && npm start",
+    "dev": "concurrently \"npm run server\"  \"npm run client\"",
+    "package": "node manifest/makePackage.js"
+  },
+  "keywords": [],
+  "author": "M365 cloud advocates",
+  "license": "MIT",
+  "dependencies": {
+    "@fluentui/react-charting": "^5.14.33",
+    "@fluentui/react-components": "^9.7.4",
+    "@fluentui/react-northstar": ">=0.62.0",
+    "@microsoft/teams-js": "^2.7.0",
+    "@microsoft/teamsfx-react": "^2.1.0",
+    "aa-sqlite": "^1.0.29",
+    "body-parser": "^1.20.1",
+    "concurrently": "^7.6.0",
+    "cookie-parser": "^1.4.6",
+    "dotenv": "^10.0.0",
+    "express": "^4.17.1",
+    "FileSync": "^1.0.1",
+    "http-proxy-middleware": "^2.0.6",
+    "lowdb": "^3.0.0",
+    "msteams-react-base-component": "^4.0.1",
+    "node-fetch": "^3.1.1",
+    "react": "^16.8.6 || ^17.0",
+    "react-dom": "^16.8.6 || ^17.0",
+    "react-native-cli": "^2.0.1",
+    "react-router": "^6.6.1",
+    "react-router-dom": "^6.8.0",
+    "react-scripts": "5.0.1",
+    "request": "^2.88.0",
+    "sqlite": "^4.1.2",
+    "sqlite-async": "^1.2.0",
+    "sqlite3": "^5.1.2",
+    "unirest": "^0.6.0",
+    "web-vitals": "^2.1.4"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.2",
+    "@types/request": "^2.48.3",
+    "adm-zip": "^0.4.16",
+    "node-fetch": "^3.1.1",
+    "nodemon": "^2.0.13",
+    "react": "^16.8.6 || ^17.0",
+    "react-dom": "^16.8.6 || ^17.0",
+    "react-scripts": "5.0.1",
+    "request": "^2.88.0",
+    "unirest": "^0.6.0",
+    "web-vitals": "^2.1.4"
+  },
+  "nodemonConfig": {
+    "ignore": [
+      "falconDB/falconDb"
+    ]
+  }
+}

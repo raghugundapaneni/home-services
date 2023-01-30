@@ -1,0 +1,223 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="UTF-8" />
+    <title>Supplier - Confirm Pay</title>
+    <link rel="stylesheet" href="usb.css" />
+    <link rel="icon" href="data:;base64,="> <!-- Suppress favicon error -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.1/jquery.min.js"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
+    <style>
+      html, body {
+      min-height: 80%;
+      }
+      label{
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 16px;
+      color: rgba(5, 5, 5, 0.767);
+      font-weight: bold;
+      }
+      body, div, form, input, select, textarea, p { 
+      padding: 0;
+      margin: 0;
+      outline: none;
+      font-family: Roboto, Arial, sans-serif;
+      font-size: 14px;
+      color: #666;
+      line-height: 30px;
+      }
+      h1 {
+      position: absolute;
+      margin: 0;
+      font-size: 36px;
+      color: #fff;
+      z-index: 2;
+      }
+      .testbox {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: inherit;
+      padding: 12px;
+      }
+      form {
+      width: 50%;
+      padding: 12px;
+      border-radius: 16px;
+      background: #fff;
+      box-shadow: 0 0 15px 0 #333; 
+      }
+      .banner {
+      position: relative;
+      height: 80px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      }
+      .banner::after {
+      content: "";
+      background-color: rgba(8, 38, 146, 0.892); 
+      position: absolute;
+      align-self: top;
+      width: 100%;
+      height: 80%;
+      }
+      input, textarea, select {
+      margin-bottom: 10px;
+      border: 1px solid #ccc;
+      border-radius: 3px;
+      }
+      input {
+      width: calc(100% - 10px);
+      padding: 3px;
+      }
+      textarea {
+      width: calc(100% - 12px);
+      padding: 5px;
+      }
+      .item:hover p, .item:hover i, .question:hover p, .question label:hover, input:hover::placeholder {
+      color: #333;
+      }
+      .item input:hover, .item select:hover, .item textarea:hover {
+      border: 1px solid transparent;
+      box-shadow: 0 0 6px 0 #333;
+      color: #333;
+      }
+      .item {
+      position: relative;
+      margin: 5px 0;
+      }
+      input[type="date"]::-webkit-inner-spin-button {
+      display: none;
+      }
+      .item i, input[type="date"]::-webkit-calendar-picker-indicator {
+      position: absolute;
+      font-size: 20px;
+      color: #a9a9a9;
+      }
+      .item i {
+      right: 1%;
+      top: 30px;
+      z-index: 1;
+      }
+      [type="date"]::-webkit-calendar-picker-indicator {
+      right: 0;
+      z-index: 2;
+      opacity: 0;
+      cursor: pointer;
+      }
+      input[type="time"]::-webkit-inner-spin-button {
+      margin: 2px 22px 0 0;
+      }
+      input[type=radio], input.other {
+      display: none;
+      }
+      .btn-block {
+      margin-top: 10px;
+      text-align: center;
+      }
+      button {
+      width: 150px;
+      padding: 10px;
+      border: none;
+      border-radius: 5px; 
+      background: #444;
+      font-size: 16px;
+      color: #fff;
+      cursor: pointer;
+      }
+      button:hover {
+      background: #666;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="testbox">
+      <form  action="/">
+        <div class="banner">
+          <h1>Confirm Payment</h1>
+        </div>
+        <div class="item" style="width: 40%; float:left">
+          <p>Invoice ID:&nbsp;&nbsp;</p></div>
+          <!-- <input type="text" id="txt_tid" name="tid" readonly/> -->
+        <div class="item" style="width: 60%; float:right">
+          <p><label id="txt_tid"></label></p></div>
+
+        <div class="item" style="width: 40%; float:left">
+          <p>Invoice Date:&nbsp;&nbsp;</p></div>
+          <!-- <input type="text" id="txt_invdt" name="invdt" readonly/> -->
+        <div class="item" style="width: 60%; float:right">
+            <p><label id="txt_invdt"></label></p></div>
+        
+        <div class="item" style="width: 40%; float:left">            
+          <p>Vendor:&nbsp;&nbsp;</p></div>
+            <!-- <input type="text" id="txt_vendor" name="vend" readonly/> -->
+        <div class="item" style="width: 60%; float:right">
+          <p><label id="txt_vendor"></label></p></div>
+
+        <div class="item" style="width: 40%; float:left">
+          <p>Amount:&nbsp;&nbsp;</p></div>
+            <!-- <input type="text" id="txt_amt" name="amt" readonly/> -->
+        <div class="item" style="width: 60%; float:right">
+          <p><label id="txt_amt"></label></p></div>
+        
+        <div class="item" style="width: 40%; float:left">            
+            <p>Payment Status:&nbsp;&nbsp;</p></div>
+            <!-- <input type="text" id="txt_status" name="pstatus" readonly/> -->
+        <div class="item" style="width: 60%; float:right">
+          <p><label id="txt_status"></label></p>
+        </div>
+
+        <div class="item">
+            <p>Payee Account Number<span style="color: red">*</span></p>
+            <input type="text" id="txt_accno" name="accno" />
+        </div>
+        <div class="item">
+            <p>Payee Routing Number<span style="color: red">*</span></p>
+            <input type="text" id="txt_routno" name="routno" />
+        </div>
+        <!-- <div class="item">
+            <p>Bank Transaction ID</p>
+            <input type="text" id="txt_btid" name="btid" readonly/>
+        </div> -->
+
+        <div class="item">
+          <p>Notes</p>
+          <textarea rows="2"></textarea>
+        </div>
+        <div class="btn-block">
+          <a href="/pages/hop.html">
+          <button type="button" id="btn-send" >SEND</button></a>
+        </div>
+      </form>
+    </div>
+
+<script>
+    $(document).ready(function(){
+        var tid = getQueryString('tid');
+        var invdt = getQueryString('invdt');
+        var amt = getQueryString('amt');
+        var vendor = getQueryString('vendor');
+        var invst= getQueryString('invst');
+
+        document.getElementById('txt_tid').innerHTML = decodeURIComponent(tid);
+        document.getElementById('txt_invdt').innerHTML = decodeURIComponent(invdt);
+        document.getElementById('txt_vendor').innerHTML = decodeURIComponent(vendor);
+        document.getElementById('txt_status').innerHTML = decodeURIComponent(invst);
+        document.getElementById('txt_amt').innerHTML = decodeURIComponent(amt);
+    }
+    );
+    function getQueryString(key){
+        var regex = new RegExp('[\\?&;]'+key+'=([^&;#]*)');
+        var qs = regex.exec(window.location.href);
+        return qs[1];
+     
+    }
+
+</script>
+
+<script type="module" src='./rtp_v1.js'> </script>
+
+</body>
+</html>

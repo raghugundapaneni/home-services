@@ -1,0 +1,134 @@
+.inv-table {
+    border-collapse: collapse;
+    margin: 5px 0;
+    font-size: 0.9em;
+    font-family: sans-serif;
+    min-width: 400px;
+    box-shadow: 0 0 20px rgba(0,0,0,0.15);
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.inv-table thead tr{
+    background-color: #008698;
+    color: #ffffff;
+    text-align: left;
+}
+
+.inv-table th,
+.inv-table td{
+    padding: 12px 15px;
+}
+
+.inv-table tbody tr{
+    border-bottom: thin solid #dddddd;
+}
+
+.inv-table tbody tr:nth-of-type(even){
+    background-color: #796e6e2e;
+}
+
+.inv-table tbody tr:last-of-type{
+    border-bottom: 2px solid #008e98;
+}
+
+.inv-table tbody tr.active-row{
+    font-weight: bold;
+    color: #009879;
+}
+
+html, body {
+    min-height: 100%;
+    padding: 5px;
+    border-radius: 5px;
+    }
+  .form{
+      margin: 0 left;
+      width: 600px;
+      margin-left: 310px;
+  }
+  .item {
+    margin: 0px auto;
+    }
+  .btn-block {
+    margin-top: 10px;
+    text-align: center;
+    }
+  button {
+    width: 150px;
+    padding: 10px;
+    border: none;
+    border-radius: 5px; 
+    background: #444;
+    font-size: 16px;
+    color: #fff;
+    cursor: pointer;
+
+    }
+  button:hover {
+    background: #666;
+    }
+
+  .testbox {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: inherit;
+  padding: 12px;
+  }
+  form {
+  width: 25%;
+  padding: 12px;
+  border-radius: 16px;
+  background: rgb(8, 8, 8);
+  box-shadow: 0 0 15px 0 #333; 
+  }
+  .banner {
+  position: relative;
+  height: 80px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  }
+  .banner::after {
+  content: "";
+  background-color: rgba(8, 38, 146, 0.892); 
+  position: absolute;
+  align-self: top;
+  width: 100%;
+  height: 80%;
+  }
+  input, textarea, select {
+  margin-bottom: 10px;
+  border: 1px solid #ccc;
+  border-radius: 3px;
+  }
+  input {
+  width: calc(100% - 10px);
+  padding: 3px;
+  }
+  textarea {
+  width: calc(100% - 12px);
+  padding: 5px;
+  }
+  .item {
+  position: relative;
+  margin: 5px 0;
+  }
+  .item i {
+  right: 1%;
+  top: 30px;
+  z-index: 1;
+  }
+
+  button:hover {
+  background: #666;
+  }
+  h1 {
+    position: absolute;
+    margin: 0;
+    font-size: 36px;
+    color: #fff;
+    z-index: 2;
+    }
