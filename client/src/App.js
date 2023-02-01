@@ -1,13 +1,15 @@
 // import * as React from 'react';
 import React, { Component, useState, useEffect } from 'react';
 import { Dropdown, DropdownMenuItemType, IDropdownOption, IDropdownStyles, } from '@fluentui/react/lib/Dropdown';
+import { Label } from '@fluentui/react-components';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
 import { DefaultButton, PrimaryButton } from '@fluentui/react/lib/Button';
 import { Stack, IStackTokens } from '@fluentui/react';
 import { HashRouter as Router, Routes, useLocation, Redirect, Route, useNavigate } from "react-router-dom";
 import { getInvoiceItems } from './util.js';
-import { Button } from '@fluentui/react-northstar';
+import { Button, Header, Box } from '@fluentui/react-northstar';
 import { PlayIcon } from '@fluentui/react-icons-northstar';
+import './usb.css';
 
 const dropdownStyles = { dropdown: { width: 700 } };
 
@@ -32,11 +34,15 @@ const DropdownControlledMultiExampleOptions = [
 
 const stackTokens = { childrenGap: 40 };
 
+
+
 const DropdownControlledMultiExample = () => {
   initializeIcons();
   const navigate = useNavigate();
   const [selectedKeys, setSelectedKeys] = React.useState([]);
-
+  const [body, setBody] = useState('');
+  const [posts, setPosts] = useState('');
+  const labelStyles = { root: { color: '#f00' } };
   const onChange = (event, item) => {
     if (item) {
       setSelectedKeys(
@@ -45,8 +51,44 @@ const DropdownControlledMultiExample = () => {
     }
   };
 
+  const addPosts = async (body) => {
+    var api_user = 'RrBdMVtqG9bBcgbhBCWjgFB4';
+    var api_password = 'sk_vqTHKf4bWqxR8qV8QjJTQ9tv';
+    await fetch('https://uat.api.converge.eu.elavonaws.com/orders', {
+       method: 'POST',
+       body: JSON.stringify({
+        "total": {
+          "amount": "1.00",
+          "currencyCode": "EUR"
+        },
+        "description": "parts",
+        "items": [
+         {
+          "total": {
+            "amount": "1.00",
+            "currencyCode": "EUR"
+          },
+         "description": "widget"
+         }
+        ]
+      }),
+       headers: {
+          'Content-type': 'application/json; charset=UTF-8','Access-Control-Allow-Origin': 'http://localhost:3000', 'Authorization': 'Basic '+ btoa(api_user+":"+api_password),
+       },
+    })
+       .then((response) => response.json())
+       .then((data) => {
+          setPosts((posts) => [data, ...posts]);
+          setBody('');
+       })
+       .catch((err) => {
+          console.log(err.message);
+       });
+ };
+
   const submitClicked = () => {
     console.log("========> Form submitted:" + selectedKeys );
+    addPosts(body);
     navigate('/payment', {
       state: {
       }
@@ -54,9 +96,12 @@ const DropdownControlledMultiExample = () => {
   };
 
   return (
-    <Stack horizontal tokens={stackTokens}>
+    <Box>
+    <Stack vertical tokens={stackTokens}>
+       <div><Header as="h2">&nbsp;&nbsp;&nbsp;&nbsp;Home Services</Header></div>
+      <div>
       <Dropdown
-        placeholder="Select options"
+        placeholder="Select services"
         // label="Multi-select controlled example"
         selectedKeys={selectedKeys}
         // eslint-disable-next-line react/jsx-no-bind
@@ -65,8 +110,12 @@ const DropdownControlledMultiExample = () => {
         options={DropdownControlledMultiExampleOptions}
         styles={dropdownStyles}
       />
-      <PrimaryButton text="Submit" onClick={submitClicked} /*allowDisabledFocus disabled={disabled} checked={checked}*/ />
+      </div>
+      <div>&nbsp;&nbsp;&nbsp;&nbsp;
+      <PrimaryButton text="Proceed" onClick={submitClicked} /*allowDisabledFocus disabled={disabled} checked={checked}*/ />
+      </div>
     </Stack>
+    </Box>
   );
 };
 
@@ -97,74 +146,68 @@ function InvoiceDetails() {
     });
   };
 
-  var [data, setData] = useState([]);
-  useEffect(() => {
-    async function fetchData() {
-      result = await getInvoiceItems();
-      inv_total = 0;
-      invid = (result[0].invoice_no);
-      invdt = (result[0].invoice_dt);
-      vendor = (result[0].vendor_name);
-      pstat = (result[0].invoice_status);
-      btid = (result[0].bank_transaction_id);
-
-      for (var i = 0; i < result.length; i++)
-        inv_total += (result[i].total_cost);
-
-      console.log(invid);
-      setData(result);
-    }
-    navigate("", { replace: true });
-    fetchData();
-
-  }, []);
-
   return (
 
 
     <>
       <div className="container">
 
-        <h1>Invoice</h1>
+        <h2>&nbsp;&nbsp;&nbsp;&nbsp;Invoice</h2>
         <br></br><br></br>
         <table id="inv-table" className="inv-table">
           <thead>
             <tr>
-              <th>Items</th>
-              <th>Rate</th>
+              <th>Service</th>
+              <th>Type</th>
               <th>Quantity</th>
               <th>Total Cost</th>
             </tr>
           </thead>
           <tbody>
             {
-              data.map((item) => (
-                <tr key={item.item_description}>
-                  <td> {item.item_description}</td>
-                  <td>{item.price_per_unit}</td>
-                  <td>{item.no_of_units}</td>
-                  <td>{item.total_cost}</td>
+               <tr>
+                <td>Refrigerator</td>
+                <td>DIY </td>
+                <td>1</td>
+                <td>$20</td>
+               </tr>}
+            {   <tr>
+                  <td>Refrigerator</td>
+                  <td>DIY </td>
+                  <td>1</td>
+                  <td>$20</td>
                 </tr>
-              ))
+            }
+            {   <tr>
+                  <td>Refrigerator</td>
+                  <td>DIY </td>
+                  <td>1</td>
+                  <td>$20</td>
+                </tr>
+            }
+            {   <tr>
+                  <td>Refrigerator</td>
+                  <td>DIY </td>
+                  <td>1</td>
+                  <td>$20</td>
+                </tr>
+            }
+            {<tr>
+                  <td>Total Amount</td>
+                  <td> </td>
+                  <td></td>
+                  <td>$125</td>
+                </tr>
             }
           </tbody>
         </table>
-        <div className="item">
-          <p>Total Amount &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-            &nbsp;<span style={{ fontColor: "blue" }}> {inv_total} <label id="txt_total"></label></span></p>
-        </div>
-
-        <div className="item">
-          <p>Payment Status &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:
-            &nbsp;<span style={{ fontColor: "blue" }}> <label id="txt_status">{pstat}</label></span></p>
-        </div>
         <div>
-          <p>Payment Confirmation ID : &nbsp;<span style={{ fontColor: "blue" }}>{btid}<label id="txt_btid"></label></span></p>
-        </div>
-
-        <div>
-
-          <Button disabled={pstat === "Paid"} onClick={handleClick} icon={<PlayIcon />} content="Click To Pay" Position='after' primary />
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button disabled={pstat === "Paid"} onClick={handleClick} icon={<PlayIcon />} content="Click To Pay" Position='after' primary />
         </div>
       </div>
 
