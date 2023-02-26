@@ -42,6 +42,7 @@ const DropdownControlledMultiExample = () => {
   const [selectedKeys, setSelectedKeys] = React.useState([]);
   const [body, setBody] = useState('');
   const [posts, setPosts] = useState('');
+  const [paymentId, setPaymentId] = useState('');
   const labelStyles = { root: { color: '#f00' } };
   const onChange = (event, item) => {
     if (item) {
@@ -86,11 +87,38 @@ const DropdownControlledMultiExample = () => {
        });
  };
 
-  const submitClicked = () => {
+  async function submitClicked(){
     console.log("========> Form submitted:" + selectedKeys );
-    addPosts(body);
+    console.log("========> Form submitted:");
+    let resp = await fetch(`/api/paymentProcess`, {
+      "method": "post",
+      "cache": "default",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "total": {
+          "amount": "2.00",
+          "currencyCode": "EUR"
+        },
+        "description": "parts",
+        "items": [
+         {
+          "total": {
+            "amount": "1.00",
+            "currencyCode": "EUR"
+          },
+         "description": "widget"
+         }
+        ]
+      })
+    });
+    let data = await resp.text();
+    console.log("Reso:::"+data);
     navigate('/payment', {
       state: {
+        data
       }
     });    
   };
@@ -133,17 +161,38 @@ function InvoiceDetails() {
 
   const navigate = useNavigate();
 
-  const handleClick = () => {
-    navigate('/confirmpay', {
-      state: {
-        invtotal: inv_total,
-        invid: invid,
-        vendor: vendor,
-        pstat: pstat,
-        invdt: invdt,
-        btid: btid,
-      }
+  const {state} = useLocation();
+
+  console.log("=>" + state.data);
+  var pid = state.data;
+
+  async function handleClick(){
+    
+    console.log("========> Form submitted:");
+    
+    let resp1 = await fetch(`/api/paymentSession`, {
+      "method": "post",
+      "cache": "default",
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify({
+        "order": "https://uat.api.converge.eu.elavonaws.com/orders/"+pid,
+        "returnUrl": null,
+        "cancelUrl": null,
+        "hppType": "lightbox",
+        "originUrl": "http://localhost:3000",
+        "doCreateTransaction": "true",
+        
+      })
+      
     });
+  
+    let data1 = await resp1.text();
+    console.log("Reso:::"+data1);
+    window.location.assign('https://uat.hpp.converge.eu.elavonaws.com/?sessionId='+data1);
+    
   };
 
   return (
@@ -237,6 +286,8 @@ function ConfirmPay() {
   console.log('in get Token()', invid, acctno, routno);
 
   const clickToPay = () => {
+    console.log('in get Token()');
+    window.location.assign('http://github.com');
     fetch(`/api/rtpfundtransfer`, {
       "method": "post",
       "cache": "default",
@@ -323,7 +374,7 @@ export function PaymentDashboard() {
     <Routes>
       <Route path="/" element={<DropdownControlledMultiExample />} exact />
       <Route path="/payment" element={<InvoiceDetails />} exact />
-      <Route path="/confirmpay" element={<ConfirmPay />} />
+      
     </Routes>
   );
 }

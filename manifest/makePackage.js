@@ -21,8 +21,8 @@ fs.readFile('manifest/manifest.template.json', 'utf-8', (err, data) => {
         zip.addLocalFile(`manifest/pfalcon.jpg`);
         zip.addLocalFile(`manifest/pfalcon.jpg`);
 
-        zip.writeZip(`manifest/obapi.zip`);
-        console.log(`Created app package manifest/obapi.zip`);
+        zip.writeZip(`manifest/homesvcs.zip`);
+        console.log(`Created app package manifest/homesvcs.zip`);
     });
 });
 

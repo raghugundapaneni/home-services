@@ -14,12 +14,22 @@ import {
   getTxnDetails
 } from './usbobService.js';
 
+import {
+  paymentProcess
+} from './paymentProcess.js';
+
+import {
+  paymentSession
+} from './paymentSession.js';
+
 dotenv.config();
 const app = express();
 
 // JSON middleware is needed if you want to parse request bodies
 app.use(express.json());
 app.use(cookieParser());
+
+// app.use(cors({origin: 'http://127.0.0.1:3000'}));
 
 // Allow the identity service to set up its middleware
 await initializeIdentityService(app);
@@ -28,7 +38,6 @@ await initializeIdentityService(app);
 // microsoftTeams.initialize(() => {
 //   console.log('App opened');
 // });
-
 
 app.get("/api/v1", async (req, res) => {
   // const message = {};
@@ -63,6 +72,42 @@ app.post('/api/rtpfundtransfer',  async (req, res) => {
   }
   catch (error){
     console.log(`Error in /api/rtpfundtransfer handling: ${error}`);
+    res.status(500).json({status: 500, statusText: error });
+  }
+
+});
+
+app.post('/api/paymentProcess',  async (req, res) => {
+  try{
+    
+    console.log("api/paymentProcess");
+    var invid = req.body.id;
+    var acctno = req.body.acctno;
+    var routno = req.body.routno;
+    console.log(invid, acctno, routno);
+    const paymentId = await paymentProcess();
+    console.log("api/paymentProcess"+paymentId);
+    res.send(paymentId);
+  }
+  catch (error){
+    console.log(`Error in api/paymentProcess handling: ${error}`);
+    res.status(500).json({status: 500, statusText: error });
+  }
+
+});
+
+app.post('/api/paymentSession',  async (req, res) => {
+  try{
+    
+    console.log("api/paymentSession");
+    var invid = req.body.order;
+    
+    console.log("Order::::::::::"+req.body.order);
+    const bankRTPRes = await paymentSession(invid);
+    res.send(bankRTPRes);
+  }
+  catch (error){
+    console.log(`Error in api/createPaymentSession handling: ${error}`);
     res.status(500).json({status: 500, statusText: error });
   }
 
