@@ -3,9 +3,9 @@
   "manifestVersion": "1.15",
   "version": "1.2.0",
   "id": "b4f5290e-61fe-496b-b6bc-6837cdc5bfc1",
-  "packageName": "HD Bldg. Suppliers",
+  "packageName": "Home Guard Services",
   "developer": {
-    "name": "HD Bldg. Suppliers",
+    "name": "Home Guard Services",
     "websiteUrl": "https://674b-108-53-76-115.ngrok.io/",
     "privacyUrl": "https://674b-108-53-76-115.ngrok.io/privacy.html",
     "termsOfUseUrl": "https://674b-108-53-76-115.ngrok.io/termsofuse.html"
@@ -15,7 +15,7 @@
       "outline": "pfalcon.jpg"
   },
   "name": {
-    "short": "HD Bldg. Pymt Svcs",
+    "short": "Home Guard Services",
     "full": "RTP/RFP, ACH, Check Payable & Receivables System - Powered by U.S. Bank's Open Banking APIs."
   },
   "description": {
@@ -26,14 +26,21 @@
 
   "configurableTabs": [
     {
-      "configurationUrl": "https://674b-108-53-76-115.ngrok.io/configure",
+      "configurationUrl": "https://fb92-74-39-191-22.ngrok.io/configure",
       "scopes": [
-        "groupchat"
+        "groupChat",
+        "team"
       ],
       "canUpdateConfiguration": true,
       "context": [
         "meetingSidePanel",
-        "meetingStage"
+        "meetingStage",
+        "callingSidePanel",
+        "channelTab",
+        "meetingChatTab",
+        "meetingDetailsTab",
+        "personalTab",
+        "privateChatTab"
       ]
     }
   ],

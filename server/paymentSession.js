@@ -17,7 +17,7 @@ export async function paymentSession(invid){
     console.log('In paymentSession');
     function createSession(){
         return new Promise((resolve, reject) => {
-            unirest('POST', 'https://uat.api.converge.eu.elavonaws.com/payment-sessions')
+            unirest('POST', 'https://dev1.api.converge.eu.elavonaws.com/payment-sessions')
                 .headers({
                 'Accept': 'application/json',
                 'Authorization': 'Basic '+ btoa(api_user+":"+api_password),

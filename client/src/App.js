@@ -1,5 +1,5 @@
 // import * as React from 'react';
-import React, { Component, useState, useEffect } from 'react';
+import React, { Component, useState, useEffect, useRef } from 'react';
 import { Dropdown, DropdownMenuItemType, IDropdownOption, IDropdownStyles, } from '@fluentui/react/lib/Dropdown';
 import { Label } from '@fluentui/react-components';
 import { initializeIcons } from '@fluentui/react/lib/Icons';
@@ -9,7 +9,10 @@ import { HashRouter as Router, Routes, useLocation, Redirect, Route, useNavigate
 import { getInvoiceItems } from './util.js';
 import { Button, Header, Box } from '@fluentui/react-northstar';
 import { PlayIcon } from '@fluentui/react-icons-northstar';
+import TabConfig from './TabConfig.js';
 import './usb.css';
+const MessageTypes = window.ConvergeLightbox.MessageTypes;
+
 
 const dropdownStyles = { dropdown: { width: 700 } };
 
@@ -55,7 +58,7 @@ const DropdownControlledMultiExample = () => {
   const addPosts = async (body) => {
     var api_user = 'RrBdMVtqG9bBcgbhBCWjgFB4';
     var api_password = 'sk_vqTHKf4bWqxR8qV8QjJTQ9tv';
-    await fetch('https://uat.api.converge.eu.elavonaws.com/orders', {
+    await fetch('https://dev1.api.converge.eu.elavonaws.com/orders', {
        method: 'POST',
        body: JSON.stringify({
         "total": {
@@ -99,15 +102,15 @@ const DropdownControlledMultiExample = () => {
       },
       body: JSON.stringify({
         "total": {
-          "amount": "2.00",
-          "currencyCode": "EUR"
+          "amount": "120.00",
+          "currencyCode": "USD"
         },
         "description": "parts",
         "items": [
          {
           "total": {
-            "amount": "1.00",
-            "currencyCode": "EUR"
+            "amount": "120.00",
+            "currencyCode": "USD"
           },
          "description": "widget"
          }
@@ -165,6 +168,9 @@ function InvoiceDetails() {
 
   console.log("=>" + state.data);
   var pid = state.data;
+  const paymentSession = useRef(null);
+  let lightbox;
+  
 
   async function handleClick(){
     
@@ -178,22 +184,68 @@ function InvoiceDetails() {
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({
-        "order": "https://uat.api.converge.eu.elavonaws.com/orders/"+pid,
-        "returnUrl": null,
-        "cancelUrl": null,
+        "order": "https://dev1.api.converge.eu.elavonaws.com/orders/"+pid,
+        "returnUrl": "https://fb92-74-39-191-22.ngrok.io/svcdetails",
+        "cancelUrl": "https://fb92-74-39-191-22.ngrok.io/payment",
         "hppType": "lightbox",
-        "originUrl": "http://localhost:3000",
+        "originUrl": "https://fb92-74-39-191-22.ngrok.io http://localhost:3000",
         "doCreateTransaction": "true",
         
       })
       
     });
   
+    
     let data1 = await resp1.text();
     console.log("Reso:::"+data1);
-    window.location.assign('https://uat.hpp.converge.eu.elavonaws.com/?sessionId='+data1);
+    console.log("Reso:::"+resp1.id);
+    paymentSession.current = data1;
+
+          //navigate(paymentSession);
+    loadLightBox(paymentSession.current);
+    //window.location.assign('https://uat.hpp.converge.eu.elavonaws.com/?sessionId='+data1);
     
   };
+
+  const submitData = (data) => {
+    // send data to your server
+    console.log('submitData',data);
+  };
+
+  function loadLightBox(sessionId) {
+    // do work to create a sessionId
+    console.log('sessionid::::', sessionId)
+    if(!lightbox){
+      lightbox = new window.ConvergeLightbox({
+        sessionId: sessionId,
+        onReady: (error) =>
+          error
+            ? console.error('Lightbox failed to load')
+            : lightbox.show(),
+        messageHandler: (message, defaultAction) => {
+          switch (message.type) {
+            case MessageTypes.transactionCreated:
+              submitData({
+                sessionId: message.sessionId,
+              });
+              lightbox.destroy();
+              navigate("/svcdetails");
+              break;
+            case MessageTypes.hostedCardCreated:
+              submitData({
+                convergePaymentToken: message.hostedCard,
+                hostedCard: message.hostedCard,
+                sessionId: message.sessionId,
+              });
+              break;
+          }
+          defaultAction();
+        },
+      });}
+      else{
+      lightbox.show();
+      }
+  }
 
   return (
 
@@ -257,6 +309,59 @@ function InvoiceDetails() {
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
         <Button disabled={pstat === "Paid"} onClick={handleClick} icon={<PlayIcon />} content="Click To Pay" Position='after' primary />
+        </div>
+      </div>
+
+    </>
+
+
+  );
+}
+
+function ServiceDetails() {
+  console.log("In Service Details page::::::::::::::::::::");
+
+  const navigate = useNavigate();
+
+  const {state} = useLocation();
+
+
+
+ return (
+
+
+    <>
+      <div className="container">
+
+        <h2>&nbsp;&nbsp;&nbsp;&nbsp;Invoice</h2>
+        <br></br><br></br>
+        <table id="inv-table" className="inv-table">
+          <thead>
+            <tr>
+              <th>Your Service details</th>
+              <th>DIY Instructions</th>
+            </tr>
+          </thead>
+          <tbody>
+            {
+               <tr>
+                <td>Refrigerator</td>
+                <td><a href={"https://www.whirlpool.com/blog/kitchen/how-to-replace-refrigerator-water-filters.html"}>View Instructions</a></td>
+               </tr>}
+            {  <tr>
+                <td>Furnace</td>
+                <td><a href={"https://www.myryanhome.com/pdfs/homecare/hvac-air-filter-rh.pdf"}>View Instructions</a></td>
+              </tr>
+            }
+          </tbody>
+        </table>
+        <div>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <Button content="Close" Position='after' primary />
         </div>
       </div>
 
@@ -374,6 +479,8 @@ export function PaymentDashboard() {
     <Routes>
       <Route path="/" element={<DropdownControlledMultiExample />} exact />
       <Route path="/payment" element={<InvoiceDetails />} exact />
+      <Route path="/svcdetails" element={<ServiceDetails />} exact />
+      <Route path="/config" element={<TabConfig />} />
       
     </Routes>
   );

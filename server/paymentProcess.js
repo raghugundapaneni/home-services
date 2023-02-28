@@ -17,7 +17,7 @@ export async function paymentProcess(){
     console.log('In paymentProcess');
     function createOrder(){
         return new Promise((resolve, reject) => {
-            unirest('POST', 'https://uat.api.converge.eu.elavonaws.com/orders')
+            unirest('POST', 'https://dev1.api.converge.eu.elavonaws.com/orders')
                 .headers({
                 'Accept': 'application/json',
                 'Authorization': 'Basic '+ btoa(api_user+":"+api_password),
@@ -27,15 +27,15 @@ export async function paymentProcess(){
                 })
                 .send(JSON.stringify({
                   "total": {
-                    "amount": "1.00",
-                    "currencyCode": "EUR"
+                    "amount": "120.00",
+                    "currencyCode": "USD"
                   },
                   "description": "parts",
                   "items": [
                    {
                     "total": {
-                      "amount": "1.00",
-                      "currencyCode": "EUR"
+                      "amount": "120.00",
+                      "currencyCode": "USD"
                     },
                    "description": "widget"
                    }
