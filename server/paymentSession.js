@@ -10,6 +10,7 @@ var api_password = 'sk_vqTHKf4bWqxR8qV8QjJTQ9tv';
 
 const ftCache = {};
 export async function paymentSession(invid){
+    console.log("___________"+invid);
 
     if (ftCache.data) return ftCache.data;
 
@@ -26,11 +27,10 @@ export async function paymentSession(invid){
                 })
                 .send(JSON.stringify({
                     "order": invid,
-                    "returnUrl": null,
-                    "cancelUrl": null,
-                    "hppType": "lightbox",
-                    "originUrl": "http://localhost:3000",
-                    "doCreateTransaction": "true",
+                    "returnUrl": "https://f937-157-58-218-118.ngrok.io",
+                    "cancelUrl": "https://f937-157-58-218-118.ngrok.io",
+                    "originUrl": "https://teams.microsoft.com https://f937-157-58-218-118.ngrok.io http://localhost:3000",
+                    "doCreateTransaction": "true"
                 }))
                 .end(function (res) { 
                   if (res.error) {

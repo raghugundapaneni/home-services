@@ -185,11 +185,10 @@ function InvoiceDetails() {
       },
       body: JSON.stringify({
         "order": "https://dev1.api.converge.eu.elavonaws.com/orders/"+pid,
-        "returnUrl": "https://fb92-74-39-191-22.ngrok.io/svcdetails",
-        "cancelUrl": "https://fb92-74-39-191-22.ngrok.io/payment",
-        "hppType": "lightbox",
-        "originUrl": "https://fb92-74-39-191-22.ngrok.io http://localhost:3000",
-        "doCreateTransaction": "true",
+        "returnUrl": "https://f937-157-58-218-118.ngrok.io",
+        "cancelUrl": "https://f937-157-58-218-118.ngrok.io",
+        "originUrl": "https://teams.microsoft.com https://f937-157-58-218-118.ngrok.io http://localhost:3000",
+        "doCreateTransaction": "true"
         
       })
       

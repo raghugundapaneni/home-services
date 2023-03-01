@@ -3,9 +3,9 @@
   "manifestVersion": "1.15",
   "version": "1.2.0",
   "id": "<TEAMS_APP_ID>",
-  "packageName": "HD Bldg. Suppliers",
+  "packageName": "Home Guard Services Application",
   "developer": {
-    "name": "HD Bldg. Suppliers",
+    "name": "Home Guard Services Application",
     "websiteUrl": "https://<HOST_NAME>/",
     "privacyUrl": "https://<HOST_NAME>/privacy.html",
     "termsOfUseUrl": "https://<HOST_NAME>/termsofuse.html"
@@ -15,7 +15,7 @@
       "outline": "pfalcon.jpg"
   },
   "name": {
-    "short": "HD Bldg. Pymt Svcs",
+    "short": "Home Guard Services Application",
     "full": "RTP/RFP, ACH, Check Payable & Receivables System - Powered by U.S. Bank's Open Banking APIs."
   },
   "description": {
